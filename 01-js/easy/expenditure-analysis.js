@@ -9,7 +9,18 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const result = transactions.reduce((acc, obj) => {
+    const existingCategory = acc.find((item) => item.category === obj.category);
+
+    if (existingCategory) {
+      existingCategory.totalSpent += obj.price;
+    } else {
+      acc.push({ category: obj.category, totalSpent: obj.price });
+    }
+
+    return acc;
+  }, []);
+  return result;
 }
 
 module.exports = calculateTotalSpentByCategory;
