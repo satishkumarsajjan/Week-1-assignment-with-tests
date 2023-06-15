@@ -16,6 +16,7 @@
   Once you've implemented the logic, test your code by running
   - `npm run test-calculator`
 */
+const math = require('mathjs');
 
 class Calculator {
   constructor() {
@@ -31,6 +32,9 @@ class Calculator {
     this.result *= number;
   }
   divide(number) {
+    if (number === 0) {
+      throw new Error('Division by zero is not allowed.');
+    }
     this.result /= number;
   }
   clear() {
@@ -41,8 +45,18 @@ class Calculator {
   }
   calculate(expression) {
     const cleanedExpression = expression.replace(/\s/g, '');
-  }
 
+    try {
+      // Evaluate the expression using math.js
+      this.result = math.evaluate(cleanedExpression);
+
+      return this.result;
+    } catch (error) {
+      throw new Error('Invalid expression.');
+    }
+  }
 }
 
+const Calc = new Calculator();
+Calc.calculate('10/0');
 module.exports = Calculator;
